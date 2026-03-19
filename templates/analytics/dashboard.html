@@ -1,0 +1,311 @@
+{% extends 'base.html' %}
+{% load currency_filters %}
+{% block title %}Analytics — AwareWallet{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Analytics</h1>
+    <p class="page-subtitle">{{ today|date:"F Y" }} spending insights</p>
+  </div>
+</div>
+
+<!-- ── Summary Row ────────────────────────────────────────────── -->
+<div class="stats-grid" style="margin-bottom:24px;">
+  <div class="stat-card stat-income">
+    <div class="stat-label">Income</div>
+    <div class="stat-value income">{% currency_symbol %}{{ summary.income|floatformat:2 }}</div>
+    <div class="stat-hint">This month</div>
+  </div>
+  <div class="stat-card stat-expense">
+    <div class="stat-label">Expenses</div>
+    <div class="stat-value expense">{% currency_symbol %}{{ summary.expenses|floatformat:2 }}</div>
+    <div class="stat-hint">This month</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Avg Daily Spend</div>
+    <div class="stat-value">{% currency_symbol %}{{ avg_daily|floatformat:2 }}</div>
+    <div class="stat-hint">Per day this month</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Transactions</div>
+    <div class="stat-value">{{ summary.transaction_count }}</div>
+    <div class="stat-hint">This month</div>
+  </div>
+</div>
+
+<div class="analytics-grid">
+
+  <!-- ── Monthly Comparison Chart ──────────────────────────────── -->
+  <div class="chart-card chart-wide">
+    <div class="chart-header">
+      <h3 class="chart-title">6-Month Overview</h3>
+      <span class="chart-subtitle">Income vs Expenses</span>
+    </div>
+    <canvas id="monthlyChart" height="100"></canvas>
+  </div>
+
+  <!-- ── Top Spending Categories ───────────────────────────────── -->
+  <div class="chart-card">
+    <div class="chart-header">
+      <h3 class="chart-title">Top Categories</h3>
+      <span class="chart-subtitle">By spend this month</span>
+    </div>
+    {% if top_categories %}
+      <div class="category-bars">
+        {% for cat in top_categories %}
+        <div class="cat-bar-item">
+          <div class="cat-bar-label">
+            <span class="cat-bar-name">{{ cat.category__name|default:"Uncategorized" }}</span>
+            <span class="cat-bar-amount">{% currency_symbol %}{{ cat.total|floatformat:2 }}</span>
+          </div>
+          <div class="cat-bar-track">
+            <div class="cat-bar-fill"
+                 style="width:{% widthratio cat.total summary.expenses 100 %}%;
+                        background:{{ cat.category__color|default:'#6366f1' }}">
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="chart-empty">No expense data this month</div>
+    {% endif %}
+  </div>
+
+  <!-- ── Largest Transaction ───────────────────────────────────── -->
+  <div class="chart-card">
+    <div class="chart-header">
+      <h3 class="chart-title">Largest Expense</h3>
+      <span class="chart-subtitle">This month</span>
+    </div>
+    {% if largest_tx %}
+    <div class="largest-tx">
+      <div class="largest-amount">{% currency_symbol %}{{ largest_tx.amount|floatformat:2 }}</div>
+      <div class="largest-desc">{{ largest_tx.description|default:"No description" }}</div>
+      <div class="largest-meta">
+        {% if largest_tx.category %}{{ largest_tx.category.name }} · {% endif %}
+        {{ largest_tx.date|date:"M d, Y" }}
+      </div>
+    </div>
+    {% else %}
+      <div class="chart-empty">No expenses this month</div>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.analytics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.chart-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px;
+}
+
+.chart-wide { grid-column: 1 / -1; }
+
+.chart-header { margin-bottom: 18px; }
+
+.chart-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.chart-subtitle { font-size: 12px; color: var(--text-muted); }
+
+.chart-empty {
+  padding: 32px 0;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+/* Category bars */
+.category-bars { display: flex; flex-direction: column; gap: 14px; }
+
+.cat-bar-item { display: flex; flex-direction: column; gap: 6px; }
+
+.cat-bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.cat-bar-name { font-weight: 500; }
+.cat-bar-amount { color: var(--text-muted); }
+
+.cat-bar-track {
+  height: 6px;
+  background: var(--surface-3);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.cat-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Largest transaction */
+.largest-tx {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 0;
+  text-align: center;
+  gap: 8px;
+}
+
+.largest-amount {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  color: var(--expense);
+}
+
+.largest-desc { font-size: 15px; font-weight: 500; }
+.largest-meta { font-size: 12px; color: var(--text-muted); }
+
+@media (max-width: 700px) {
+  .analytics-grid { grid-template-columns: 1fr; }
+  .chart-wide { grid-column: 1; }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+  const monthlyData = {{ monthly_comparison|safe }};
+  const currencySymbol = '{{ currency_symbol }}';
+  const labels   = monthlyData.map(d => d.month);
+  const incomes  = monthlyData.map(d => parseFloat(d.income)   || 0);
+  const expenses = monthlyData.map(d => parseFloat(d.expenses) || 0);
+
+  const ctx = document.getElementById('monthlyChart').getContext('2d');
+
+  new Chart(ctx, {
+    type: 'line',        // ← changed from 'bar'
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Income',
+          data: incomes,
+          borderColor: 'rgba(52,211,153,1)',
+          backgroundColor: 'rgba(52,211,153,0.08)',
+          borderWidth: 2.5,
+          pointBackgroundColor: 'rgba(52,211,153,1)',
+          pointRadius: 4,
+          pointHoverRadius: 6,
+          fill: true,
+          tension: 0.4,        // ← smooth curves
+        },
+        {
+          label: 'Expenses',
+          data: expenses,
+          borderColor: 'rgba(248,113,113,1)',
+          backgroundColor: 'rgba(248,113,113,0.08)',
+          borderWidth: 2.5,
+          pointBackgroundColor: 'rgba(248,113,113,1)',
+          pointRadius: 4,
+          pointHoverRadius: 6,
+          fill: true,
+          tension: 0.4,        // ← smooth curves
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      interaction: {
+        mode: 'index',
+        intersect: false,
+      },
+      plugins: {
+        legend: {
+          labels: { color: '#9ca3af', font: { family: 'DM Sans' } }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => ` ${ctx.dataset.label}: ${currencySymbol}${ctx.parsed.y.toFixed(2)}`
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: '#6b7280', font: { family: 'DM Sans' } },
+          grid: { color: 'rgba(255,255,255,0.04)' }
+        },
+        y: {
+          ticks: {
+            color: '#6b7280',
+            font: { family: 'DM Sans' },
+            callback: val => currencySymbol + val
+          },
+          grid: { color: 'rgba(255,255,255,0.04)' }
+        }
+      }
+    }
+  });
+  // new Chart(ctx, {
+  //   type: 'line',
+  //   data: {
+  //     labels,
+  //     datasets: [
+  //       {
+  //         label: 'Income',
+  //         data: incomes,
+  //         backgroundColor: 'rgba(52,211,153,0.7)',
+  //         borderColor: 'rgba(52,211,153,1)',
+  //         borderWidth: 1,
+  //         borderRadius: 4,
+  //       },
+  //       {
+  //         label: 'Expenses',
+  //         data: expenses,
+  //         backgroundColor: 'rgba(248,113,113,0.7)',
+  //         borderColor: 'rgba(248,113,113,1)',
+  //         borderWidth: 1,
+  //         borderRadius: 4,
+  //       }
+  //     ]
+  //   },
+  //   options: {
+  //     responsive: true,
+  //     plugins: {
+  //       legend: {
+  //         labels: { color: '#9ca3af', font: { family: 'DM Sans' } }
+  //       }
+  //     },
+  //     scales: {
+  //       x: {
+  //         ticks: { color: '#6b7280', font: { family: 'DM Sans' } },
+  //         grid:  { color: 'rgba(255,255,255,0.04)' }
+  //       },
+  //       y: {
+  //         ticks: {
+  //           color: '#6b7280',
+  //           font: { family: 'DM Sans' },
+  //           callback: val => currencySymbol + val
+  //         },
+  //         grid: { color: 'rgba(255,255,255,0.04)' }
+  //       }
+  //     }
+  //   }
+  // });
+</script>
+{% endblock %}

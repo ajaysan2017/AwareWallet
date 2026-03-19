@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% load currency_filters %}
+{% block title %}Profile — AwareWallet{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Profile</h1>
+    <p class="page-subtitle">Manage your account settings</p>
+  </div>
+</div>
+
+<div class="profile-grid">
+
+  <!-- ── Avatar & Info ─────────────────────────────────────────── -->
+  <div class="profile-card profile-sidebar">
+    <div class="avatar-wrap">
+      {% if request.user.avatar %}
+        <img src="{{ request.user.avatar.url }}" alt="Avatar" class="avatar-img">
+      {% else %}
+        <div class="avatar-placeholder">
+          {{ request.user.first_name|first|upper }}{{ request.user.last_name|first|upper }}
+        </div>
+      {% endif %}
+    </div>
+    <div class="profile-name">{{ request.user.full_name }}</div>
+    <div class="profile-email">{{ request.user.email }}</div>
+    <div class="profile-meta">
+      <div class="meta-item">
+        <span class="meta-label">Member since</span>
+        <span class="meta-value">{{ request.user.date_joined|date:"M Y" }}</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Currency</span>
+        <span class="meta-value">{{ request.user.currency }}</span>
+      </div>
+      {% if request.user.monthly_income %}
+      <div class="meta-item">
+        <span class="meta-label">Monthly Income</span>
+        <span class="meta-value">{% currency_symbol %}{{ request.user.monthly_income|floatformat:2 }}</span>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- ── Edit Form ─────────────────────────────────────────────── -->
+  <div class="profile-card profile-form">
+    <h3 class="profile-section-title">Edit Profile</h3>
+    <form method="POST" enctype="multipart/form-data" class="form-grid">
+      {% csrf_token %}
+
+      <div class="form-row">
+        <div class="field-group">
+          <label for="id_first_name">First Name</label>
+          <input type="text" name="first_name" id="id_first_name"
+                 value="{{ form.first_name.value|default:'' }}">
+          {% if form.first_name.errors %}<span class="field-error">{{ form.first_name.errors.0 }}</span>{% endif %}
+        </div>
+        <div class="field-group">
+          <label for="id_last_name">Last Name</label>
+          <input type="text" name="last_name" id="id_last_name"
+                 value="{{ form.last_name.value|default:'' }}">
+          {% if form.last_name.errors %}<span class="field-error">{{ form.last_name.errors.0 }}</span>{% endif %}
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label for="id_email">Email</label>
+        <input type="email" name="email" id="id_email"
+               value="{{ form.email.value|default:'' }}">
+        {% if form.email.errors %}<span class="field-error">{{ form.email.errors.0 }}</span>{% endif %}
+      </div>
+
+      <div class="form-row">
+        <div class="field-group">
+          <label for="id_currency">Currency</label>
+          <select name="currency" id="id_currency">
+            {% for value, label in form.currency.field.choices %}
+              <option value="{{ value }}" {% if form.currency.value == value %}selected{% endif %}>
+                {{ label }}
+              </option>
+            {% endfor %}
+          </select>
+          {% if form.currency.errors %}<span class="field-error">{{ form.currency.errors.0 }}</span>{% endif %}
+        </div>
+        <div class="field-group">
+          <label for="id_monthly_income">Monthly Income ({% currency_symbol %}) <span style="color:var(--text-muted);font-weight:400">(optional)</span></label>
+          <input type="number" name="monthly_income" id="id_monthly_income"
+                 step="0.01" min="0" placeholder="0.00"
+                 value="{{ form.monthly_income.value|default:'' }}">
+          {% if form.monthly_income.errors %}<span class="field-error">{{ form.monthly_income.errors.0 }}</span>{% endif %}
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label for="id_avatar">Profile Picture <span style="color:var(--text-muted);font-weight:400">(optional)</span></label>
+        <input type="file" name="avatar" id="id_avatar" accept="image/*"
+               style="padding:8px 14px; cursor:pointer;">
+        {% if form.avatar.errors %}<span class="field-error">{{ form.avatar.errors.0 }}</span>{% endif %}
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-primary">Save Changes</button>
+      </div>
+    </form>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.profile-grid {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.profile-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+.profile-sidebar { text-align: center; }
+
+.avatar-wrap { margin-bottom: 16px; }
+
+.avatar-img {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border);
+}
+
+.avatar-placeholder {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: var(--accent-dim);
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(52,211,153,0.2);
+}
+
+.profile-name {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.profile-email {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.profile-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+  text-align: left;
+}
+
+.meta-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.meta-label { color: var(--text-muted); }
+.meta-value { font-weight: 500; }
+
+.profile-section-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .profile-grid { grid-template-columns: 1fr; }
+}
+</style>
+{% endblock %}

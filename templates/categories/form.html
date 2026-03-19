@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load currency_filters %}
+{% block title %}{{ action }} Category — AwareWallet{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">{{ action }} Category</h1>
+    <p class="page-subtitle">{% if action == 'Create' %}Add a new category{% else %}Update category details{% endif %}</p>
+  </div>
+</div>
+
+<div class="form-card">
+  <form method="POST" class="form-grid">
+    {% csrf_token %}
+
+    <div class="field-group">
+      <label for="id_name">Name</label>
+      <input type="text" name="name" id="id_name"
+             placeholder="e.g. Groceries" value="{{ form.name.value|default:'' }}" autofocus>
+      {% if form.name.errors %}<span class="field-error">{{ form.name.errors.0 }}</span>{% endif %}
+    </div>
+
+    <div class="field-group">
+      <label for="id_type">Type</label>
+      <select name="type" id="id_type">
+        <option value="expense" {% if form.type.value == 'expense' %}selected{% endif %}>Expense</option>
+        <option value="income"  {% if form.type.value == 'income' %}selected{% endif %}>Income</option>
+      </select>
+      {% if form.type.errors %}<span class="field-error">{{ form.type.errors.0 }}</span>{% endif %}
+    </div>
+
+    <div class="form-row">
+      <div class="field-group">
+        <label for="id_color">Color</label>
+        <input type="color" name="color" id="id_color"
+               value="{{ form.color.value|default:'#6366f1' }}"
+               style="height:42px; padding:4px 8px; cursor:pointer;">
+        {% if form.color.errors %}<span class="field-error">{{ form.color.errors.0 }}</span>{% endif %}
+      </div>
+    </div>
+
+    {% if form.non_field_errors %}
+      <div class="form-error">
+        {% for error in form.non_field_errors %}
+          {{ error }}
+        {% endfor %}
+      </div>
+    {% endif %}
+    <div class="form-actions">
+      <button type="submit" class="btn-primary">
+        {% if action == 'Create' %}Create Category{% else %}Save Changes{% endif %}
+      </button>
+      <a href="{% url 'category-list' %}" class="btn-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

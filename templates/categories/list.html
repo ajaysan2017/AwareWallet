@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% load currency_filters %}
+{% block title %}Categories — AwareWallet{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Categories</h1>
+    <p class="page-subtitle">Organise your income and expenses</p>
+  </div>
+  <a href="{% url 'category-create' %}" class="btn-primary">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    New Category
+  </a>
+</div>
+
+<div class="categories-columns">
+
+  <!-- Income -->
+  <div class="cat-column">
+    <div class="cat-column-header income-header">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+      Income
+      <span class="cat-count">{{ income_categories.count }}</span>
+    </div>
+    {% if income_categories %}
+      {% for cat in income_categories %}
+      <div class="cat-item">
+        <div class="cat-info">
+          <span class="cat-color-dot" style="background:{{ cat.color }}"></span>
+          <span class="cat-name">{{ cat.name }}</span>
+          {% if cat.is_default %}<span class="badge-default">default</span>{% endif %}
+        </div>
+        {% if not cat.is_default %}
+        <div class="cat-actions">
+          <a href="{% url 'category-update' cat.pk %}" class="btn-secondary btn-sm">Edit</a>
+          <a href="{% url 'category-delete' cat.pk %}" class="btn-danger btn-sm">Delete</a>
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    {% else %}
+      <div class="cat-empty">No income categories yet</div>
+    {% endif %}
+  </div>
+
+  <!-- Expense -->
+  <div class="cat-column">
+    <div class="cat-column-header expense-header">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/></svg>
+      Expense
+      <span class="cat-count">{{ expense_categories.count }}</span>
+    </div>
+    {% if expense_categories %}
+      {% for cat in expense_categories %}
+      <div class="cat-item">
+        <div class="cat-info">
+          <span class="cat-color-dot" style="background:{{ cat.color }}"></span>
+          <span class="cat-name">{{ cat.name }}</span>
+          {% if cat.is_default %}<span class="badge-default">default</span>{% endif %}
+        </div>
+        {% if not cat.is_default %}
+        <div class="cat-actions">
+          <a href="{% url 'category-update' cat.pk %}" class="btn-secondary btn-sm">Edit</a>
+          <a href="{% url 'category-delete' cat.pk %}" class="btn-danger btn-sm">Delete</a>
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    {% else %}
+      <div class="cat-empty">No expense categories yet</div>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.categories-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.cat-column {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.cat-column-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 18px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  border-bottom: 1px solid var(--border);
+}
+
+.income-header  { color: var(--income);  background: rgba(52,211,153,0.05); }
+.expense-header { color: var(--expense); background: rgba(248,113,113,0.05); }
+
+.cat-count {
+  margin-left: auto;
+  background: var(--surface-2);
+  border-radius: 99px;
+  padding: 2px 8px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.cat-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+.cat-item:last-child { border-bottom: none; }
+.cat-item:hover { background: var(--surface-2); }
+
+.cat-info { display: flex; align-items: center; gap: 10px; }
+
+.cat-color-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.cat-name { font-size: 14px; font-weight: 500; }
+
+.badge-default {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 99px;
+  background: var(--surface-3);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
+.cat-actions { display: flex; gap: 6px; }
+
+.cat-empty {
+  padding: 24px 18px;
+  font-size: 13px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .categories-columns { grid-template-columns: 1fr; }
+}
+</style>
+{% endblock %}

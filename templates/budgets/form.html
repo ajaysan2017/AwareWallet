@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load currency_filters %}
+{% block title %}{{ action }} Budget — AwareWallet{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">{{ action }} Budget</h1>
+    <p class="page-subtitle">Set a spending limit for a category</p>
+  </div>
+</div>
+
+<div class="form-card">
+  <form method="POST" class="form-grid">
+    {% csrf_token %}
+
+    <div class="field-group">
+      <label for="id_category">Category</label>
+      <select name="category" id="id_category">
+        <option value="">— Select category —</option>
+        {% for cat in form.category.field.queryset %}
+          <option value="{{ cat.pk }}" {% if form.category.value|stringformat:"s" == cat.pk|stringformat:"s" %}selected{% endif %}>
+            {{ cat.name }}
+          </option>
+        {% endfor %}
+      </select>
+      {% if form.category.errors %}<span class="field-error">{{ form.category.errors.0 }}</span>{% endif %}
+    </div>
+
+    <div class="field-group">
+      <label for="id_limit_amount">Monthly Limit ({% currency_symbol %})</label>
+      <input type="number" name="limit_amount" id="id_limit_amount"
+             step="0.01" min="0" placeholder="e.g. 500.00"
+             value="{{ form.limit_amount.value|default:'' }}">
+      {% if form.limit_amount.errors %}<span class="field-error">{{ form.limit_amount.errors.0 }}</span>{% endif %}
+    </div>
+
+    <div class="field-group">
+      <label for="id_month">Month</label>
+      <input type="date" name="month" id="id_month"
+             value="{{ form.month.value|default:'' }}">
+      <span style="font-size:12px; color:var(--text-muted);">Pick the first day of the month e.g. 2026-03-01</span>
+      {% if form.month.errors %}<span class="field-error">{{ form.month.errors.0 }}</span>{% endif %}
+    </div>
+    {% if form.non_field_errors %}
+      <div class="form-error">
+        {% for error in form.non_field_errors %}
+          {{ error }}
+        {% endfor %}
+      </div>
+    {% endif %}
+    <div class="form-actions">
+      <button type="submit" class="btn-primary">
+        {% if action == 'Create' %}Create Budget{% else %}Save Changes{% endif %}
+      </button>
+      <a href="{% url 'budget-list' %}" class="btn-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

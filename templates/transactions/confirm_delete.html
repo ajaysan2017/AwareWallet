@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load currency_filters %}
+{% block title %}Delete Transaction — AwareWallet{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1 class="page-title">Delete Transaction</h1>
+</div>
+
+<div class="confirm-card">
+  <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="1.5" style="margin-bottom:16px;">
+    <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+    <path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
+  </svg>
+  <h2>Are you sure?</h2>
+  <p>This will permanently delete the transaction <strong>{{ object }}</strong>. This cannot be undone.</p>
+  <form method="POST" style="display:flex; gap:10px; justify-content:center;">
+    {% csrf_token %}
+    <button type="submit" class="btn-danger">Yes, delete</button>
+    <a href="{% url 'transaction-list' %}" class="btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}

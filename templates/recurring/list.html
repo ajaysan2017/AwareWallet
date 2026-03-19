@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load currency_filters %}
+{% block title %}Recurring Transactions — AwareWallet{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Recurring</h1>
+    <p class="page-subtitle">Scheduled income and expenses</p>
+  </div>
+  <a href="{% url 'recurring-create' %}" class="btn-primary">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    New Recurring
+  </a>
+</div>
+
+{% if recurring %}
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>Category</th>
+        <th>Type</th>
+        <th>Amount</th>
+        <th>Frequency</th>
+        <th>Next Date</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in recurring %}
+      <tr>
+        <td style="font-weight:500;">{{ item.description|default:"—" }}</td>
+        <td>
+          {% if item.category %}
+            <span style="display:inline-flex; align-items:center; gap:6px;">
+              <span style="width:8px;height:8px;border-radius:50%;background:{{ item.category.color }};display:inline-block;"></span>
+              {{ item.category.name }}
+            </span>
+          {% else %}—{% endif %}
+        </td>
+        <td><span class="badge badge-{{ item.type }}">{{ item.type|capfirst }}</span></td>
+        <td>
+          <span class="tx-amount {{ item.type }}">
+            {% if item.type == 'income' %}+{% else %}-{% endif %}{% currency_symbol %}{{ item.amount|floatformat:2 }}
+          </span>
+        </td>
+        <td>
+          <span class="badge badge-warning">{{ item.frequency|capfirst }}</span>
+        </td>
+        <td style="color:var(--text-muted);">{{ item.next_date|date:"M d, Y" }}</td>
+        <td>
+          {% if item.is_active %}
+            <span class="badge badge-income">Active</span>
+          {% else %}
+            <span class="badge" style="background:var(--surface-3);color:var(--text-muted);">Paused</span>
+          {% endif %}
+        </td>
+        <td>
+          <div style="display:flex; gap:8px;">
+            <a href="{% url 'recurring-update' item.pk %}" class="btn-secondary btn-sm">Edit</a>
+            <a href="{% url 'recurring-delete' item.pk %}" class="btn-danger btn-sm">Delete</a>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="empty-state">
+  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+  <p>No recurring transactions yet</p>
+  <a href="{% url 'recurring-create' %}" class="btn-primary btn-sm">Add your first recurring transaction</a>
+</div>
+{% endif %}
+
+{% endblock %}

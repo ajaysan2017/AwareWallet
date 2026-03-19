@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load currency_filters %}
+{% block title %}{{ action }} Transaction — AwareWallet{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">{{ action }} Transaction</h1>
+    <p class="page-subtitle">{% if action == 'Add' %}Record a new income or expense{% else %}Update transaction details{% endif %}</p>
+  </div>
+</div>
+
+<div class="form-card">
+  <form method="POST" class="form-grid">
+    {% csrf_token %}
+
+    <div class="form-row">
+      <div class="field-group">
+        <label for="id_amount">Amount ({% currency_symbol %})</label>
+        <input type="number" name="amount" id="id_amount" step="0.01" min="0"
+               placeholder="0.00" value="{{ form.amount.value|default:'' }}">
+        {% if form.amount.errors %}<span class="field-error">{{ form.amount.errors.0 }}</span>{% endif %}
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="field-group">
+        <label for="id_category">Category</label>
+        <select name="category" id="id_category" onchange="updateTypeHint(this)">
+          <option value="">— Select category —</option>
+          {% for cat in form.category.field.queryset %}
+            <option value="{{ cat.pk }}"
+                    data-type="{{ cat.type }}"
+                    {% if form.category.value|stringformat:"s" == cat.pk|stringformat:"s" %}selected{% endif %}>
+              {{ cat.name }} ({{ cat.type }})
+            </option>
+          {% endfor %}
+        </select>
+        <span id="type-hint" style="font-size:12px;"></span>
+        {% if form.category.errors %}<span class="field-error">{{ form.category.errors.0 }}</span>{% endif %}
+      </div>
+      <div class="field-group">
+        <label for="id_date">Date</label>
+        <input type="date" name="date" id="id_date" value="{{ form.date.value|default:'' }}">
+        {% if form.date.errors %}<span class="field-error">{{ form.date.errors.0 }}</span>{% endif %}
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label for="id_description">Description</label>
+      <input type="text" name="description" id="id_description"
+             placeholder="e.g. Grocery shopping" value="{{ form.description.value|default:'' }}">
+      {% if form.description.errors %}<span class="field-error">{{ form.description.errors.0 }}</span>{% endif %}
+    </div>
+
+    <div class="field-group">
+      <label for="id_notes">Notes <span style="color:var(--text-muted); font-weight:400;">(optional)</span></label>
+      <textarea name="notes" id="id_notes" placeholder="Any extra details...">{{ form.notes.value|default:'' }}</textarea>
+      {% if form.notes.errors %}<span class="field-error">{{ form.notes.errors.0 }}</span>{% endif %}
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-primary">
+        {% if action == 'Add' %}Add Transaction{% else %}Save Changes{% endif %}
+      </button>
+      <a href="{% url 'transaction-list' %}" class="btn-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
+{% block extra_js %}
+<script>
+function updateTypeHint(select) {
+  const hint = document.getElementById('type-hint');
+  const option = select.options[select.selectedIndex];
+  const type = option.getAttribute('data-type');
+  if (type === 'income') {
+    hint.style.color = 'var(--income)';
+    hint.textContent = '↑ This will be recorded as Income';
+  } else if (type === 'expense') {
+    hint.style.color = 'var(--expense)';
+    hint.textContent = '↓ This will be recorded as Expense';
+  } else {
+    hint.textContent = '';
+  }
+}
+document.addEventListener('DOMContentLoaded', () => {
+  const select = document.getElementById('id_category');
+  if (select && select.value) updateTypeHint(select);
+});
+</script>
+{% endblock %}
+{% endblock %}

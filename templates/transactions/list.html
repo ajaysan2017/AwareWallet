@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load currency_filters %}
+{% block title %}Transactions — AwareWallet{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Transactions</h1>
+    <p class="page-subtitle">All your income and expenses</p>
+  </div>
+  <a href="{% url 'transaction-create' %}" class="btn-primary">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    Add Transaction
+  </a>
+</div>
+
+<!-- ── Filters ────────────────────────────────────────────────── -->
+<form method="GET" class="filters-bar">
+  <div class="field-group">
+    <label>Type</label>
+    <select name="type">
+      <option value="">All types</option>
+      <option value="income"  {% if request.GET.type == 'income' %}selected{% endif %}>Income</option>
+      <option value="expense" {% if request.GET.type == 'expense' %}selected{% endif %}>Expense</option>
+    </select>
+  </div>
+  <div class="field-group">
+    <label>Category</label>
+    <select name="category">
+      <option value="">All categories</option>
+      {% for tx in filter.qs %}
+        {% if tx.category %}
+          <option value="{{ tx.category.id }}" {% if request.GET.category == tx.category.id|stringformat:"s" %}selected{% endif %}>
+            {{ tx.category.name }}
+          </option>
+        {% endif %}
+      {% endfor %}
+    </select>
+  </div>
+  <div class="field-group">
+    <label>From</label>
+    <input type="date" name="date_from" value="{{ request.GET.date_from }}">
+  </div>
+  <div class="field-group">
+    <label>To</label>
+    <input type="date" name="date_to" value="{{ request.GET.date_to }}">
+  </div>
+  <div class="field-group">
+    <label>Min {% currency_symbol %}</label>
+    <input type="number" name="amount_min" value="{{ request.GET.amount_min }}" placeholder="0" step="0.01">
+  </div>
+  <div class="field-group">
+    <label>Max {% currency_symbol %}</label>
+    <input type="number" name="amount_max" value="{{ request.GET.amount_max }}" placeholder="Any" step="0.01">
+  </div>
+  <div class="field-group" style="justify-content: flex-end;">
+    <label>&nbsp;</label>
+    <div style="display:flex; gap:8px;">
+      <button type="submit" class="btn-primary btn-sm">Filter</button>
+      <a href="{% url 'transaction-list' %}" class="btn-secondary btn-sm">Clear</a>
+    </div>
+  </div>
+</form>
+
+<!-- ── Table ──────────────────────────────────────────────────── -->
+{% if filter.qs %}
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>Category</th>
+        <th>Type</th>
+        <th>Date</th>
+        <th>Amount</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for tx in filter.qs %}
+      <tr>
+        <td>
+          <span style="font-weight:500;">{{ tx.description|default:"—" }}</span>
+          {% if tx.notes %}
+            <span style="display:block; font-size:11.5px; color:var(--text-muted);">{{ tx.notes|truncatechars:50 }}</span>
+          {% endif %}
+        </td>
+        <td>
+          {% if tx.category %}
+            <span style="display:inline-flex; align-items:center; gap:6px;">
+              <span style="width:8px;height:8px;border-radius:50%;background:{{ tx.category.color }};display:inline-block;"></span>
+              {{ tx.category.name }}
+            </span>
+          {% else %}—{% endif %}
+        </td>
+        <td><span class="badge badge-{{ tx.type }}">{{ tx.type|capfirst }}</span></td>
+        <td style="color:var(--text-muted);">{{ tx.date|date:"M d, Y" }}</td>
+        <td>
+          <span class="tx-amount {{ tx.type }}">
+            {% if tx.type == 'income' %}+{% else %}-{% endif %}{% currency_symbol %}{{ tx.amount|floatformat:2 }}
+          </span>
+        </td>
+        <td>
+          <div style="display:flex; gap:8px;">
+            <a href="{% url 'transaction-update' tx.pk %}" class="btn-secondary btn-sm">Edit</a>
+            <a href="{% url 'transaction-delete' tx.pk %}" class="btn-danger btn-sm">Delete</a>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="empty-state">
+  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+  <p>No transactions found</p>
+  <a href="{% url 'transaction-create' %}" class="btn-primary btn-sm">Add your first transaction</a>
+</div>
+{% endif %}
+
+{% endblock %}

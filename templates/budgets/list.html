@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% load currency_filters %}
+{% block title %}Budgets — AwareWallet{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Budgets</h1>
+    <p class="page-subtitle">{{ today|date:"F Y" }} spending limits</p>
+  </div>
+  <a href="{% url 'budget-create' %}" class="btn-primary">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    New Budget
+  </a>
+</div>
+
+{% if budgets %}
+<div class="budgets-grid">
+  {% for budget in budgets %}
+  <div class="budget-card budget-{{ budget.alert_level }}">
+
+    <div class="budget-header">
+      <div class="budget-category">
+        <span class="category-dot" style="background:{{ budget.category.color }}"></span>
+        <span class="category-name">{{ budget.category.name }}</span>
+      </div>
+      <div class="budget-actions">
+        <a href="{% url 'budget-update' budget.pk %}" class="btn-secondary btn-sm">Edit</a>
+        <a href="{% url 'budget-delete' budget.pk %}" class="btn-danger btn-sm">Delete</a>
+      </div>
+    </div>
+
+    <div class="budget-amounts">
+      <span class="budget-spent"><label for="id_limit_amount">Monthly Limit ({% currency_symbol %})</label>{{ budget.spent_amount|floatformat:2 }}</span>
+      <span class="budget-divider">of</span>
+      <span class="budget-limit">{% currency_symbol %}{{ budget.limit_amount|floatformat:2 }}</span>
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress-fill progress-{{ budget.alert_level }}"
+           style="width: {% if budget.percentage_used > 100 %}100{% else %}{{ budget.percentage_used }}{% endif %}%">
+      </div>
+    </div>
+
+    <div class="budget-footer">
+      <span class="budget-pct">{{ budget.percentage_used }}% used</span>
+      <span class="badge badge-{{ budget.alert_level }}">
+        {% if budget.alert_level == 'exceeded' %}🚨 Exceeded
+        {% elif budget.alert_level == 'danger' %}⚠️ High
+        {% elif budget.alert_level == 'warning' %}📊 Mid
+        {% else %}✅ On track
+        {% endif %}
+      </span>
+    </div>
+
+    {% if budget.alert_level != 'safe' %}
+    <div class="budget-alert-msg">
+      {% if budget.alert_level == 'exceeded' %}
+        You've exceeded this budget by {% currency_symbol %}{{ budget.spent_amount|floatformat:2|cut:"%" }}.
+      {% elif budget.alert_level == 'danger' %}
+        You've used {{ budget.percentage_used }}% of your {{ budget.category.name }} budget this month.
+      {% else %}
+        You've used {{ budget.percentage_used }}% of your {{ budget.category.name }} budget this month.
+      {% endif %}
+    </div>
+    {% endif %}
+
+  </div>
+  {% endfor %}
+</div>
+
+{% else %}
+<div class="empty-state">
+  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+  <p>No budgets set for this month</p>
+  <a href="{% url 'budget-create' %}" class="btn-primary btn-sm">Create your first budget</a>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.budgets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.budget-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  border-left: 3px solid var(--border);
+  transition: transform 0.15s;
+}
+.budget-card:hover { transform: translateY(-2px); }
+.budget-exceeded  { border-left-color: var(--danger); background: rgba(248,113,113,0.03); }
+.budget-danger    { border-left-color: var(--danger); }
+.budget-warning   { border-left-color: var(--warning); }
+.budget-safe      { border-left-color: var(--accent); }
+
+.budget-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.budget-category {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.category-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.category-name {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.budget-actions { display: flex; gap: 6px; }
+
+.budget-amounts {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.budget-spent {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.budget-divider { color: var(--text-muted); font-size: 13px; }
+
+.budget-limit { color: var(--text-muted); font-size: 14px; }
+
+.budget-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.budget-pct { font-size: 12px; color: var(--text-muted); }
+
+.budget-alert-msg {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  background: rgba(255,255,255,0.03);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+</style>
+{% endblock %}

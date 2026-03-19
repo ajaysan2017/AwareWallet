@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load currency_filters %}
+{% block title %}Add to {{ goal.goal_name }} — AwareWallet{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Add to Goal</h1>
+    <p class="page-subtitle">{{ goal.goal_name }}</p>
+  </div>
+</div>
+
+<div class="form-card">
+  <div class="deposit-progress">
+    <div class="deposit-amounts">
+      <span style="color:{{ goal.color }}; font-family:var(--font-display); font-size:22px; font-weight:800;">
+        {% currency_symbol %}{{ goal.current_amount|floatformat:2 }}
+      </span>
+      <span style="color:var(--text-muted); font-size:14px;"> of {% currency_symbol %}{{ goal.target_amount|floatformat:2 }}</span>
+    </div>
+    <div class="progress-bar" style="margin: 10px 0 4px;">
+      <div class="progress-fill" style="width:{{ goal.percentage_complete }}%; background:{{ goal.color }}"></div>
+    </div>
+    <div style="font-size:12px; color:var(--text-muted);">
+      {{ goal.percentage_complete }}% complete · {% currency_symbol %}{{ goal.remaining_amount|floatformat:2 }} remaining
+    </div>
+  </div>
+
+  <form method="POST" class="form-grid" style="margin-top:24px;">
+    {% csrf_token %}
+    <div class="field-group">
+      <label for="id_amount">Amount to Add ({% currency_symbol %})</label>
+      <input type="number" name="amount" id="id_amount"
+             step="0.01" min="0.01" placeholder="0.00"
+             value="{{ form.amount.value|default:'' }}" autofocus>
+      {% if form.amount.errors %}<span class="field-error">{{ form.amount.errors.0 }}</span>{% endif %}
+    </div>
+    <div class="form-actions">
+      <button type="submit" class="btn-primary">Add to Goal</button>
+      <a href="{% url 'savings-list' %}" class="btn-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.deposit-progress {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+}
+</style>
+{% endblock %}

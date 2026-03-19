@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load currency_filters %}
+{% block title %}{{ action }} Savings Goal — AwareWallet{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">{{ action }} Savings Goal</h1>
+    <p class="page-subtitle">{% if action == 'Create' %}Set a new financial target{% else %}Update your goal{% endif %}</p>
+  </div>
+</div>
+
+<div class="form-card">
+  <form method="POST" class="form-grid">
+    {% csrf_token %}
+
+    <div class="field-group">
+      <label for="id_goal_name">Goal Name</label>
+      <input type="text" name="goal_name" id="id_goal_name"
+             placeholder="e.g. Emergency Fund, New Laptop"
+             value="{{ form.goal_name.value|default:'' }}" autofocus>
+      {% if form.goal_name.errors %}<span class="field-error">{{ form.goal_name.errors.0 }}</span>{% endif %}
+    </div>
+
+    <div class="form-row">
+      <div class="field-group">
+        <label for="id_target_amount">Target Amount ({% currency_symbol %})</label>
+        <input type="number" name="target_amount" id="id_target_amount"
+               step="0.01" min="0" placeholder="0.00"
+               value="{{ form.target_amount.value|default:'' }}">
+        {% if form.target_amount.errors %}<span class="field-error">{{ form.target_amount.errors.0 }}</span>{% endif %}
+      </div>
+      <div class="field-group">
+        <label for="id_current_amount">Current Amount ({% currency_symbol %})</label>
+        <input type="number" name="current_amount" id="id_current_amount"
+               step="0.01" min="0" placeholder="0.00"
+               value="{{ form.current_amount.value|default:'0' }}">
+        {% if form.current_amount.errors %}<span class="field-error">{{ form.current_amount.errors.0 }}</span>{% endif %}
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="field-group">
+        <label for="id_deadline">Deadline <span style="color:var(--text-muted);font-weight:400">(optional)</span></label>
+        <input type="date" name="deadline" id="id_deadline"
+               value="{{ form.deadline.value|default:'' }}">
+        {% if form.deadline.errors %}<span class="field-error">{{ form.deadline.errors.0 }}</span>{% endif %}
+      </div>
+      <div class="field-group">
+        <label for="id_color">Color</label>
+        <input type="color" name="color" id="id_color"
+               value="{{ form.color.value|default:'#10b981' }}"
+               style="height:42px; padding:4px 8px; cursor:pointer;">
+        {% if form.color.errors %}<span class="field-error">{{ form.color.errors.0 }}</span>{% endif %}
+      </div>
+    </div>
+    {% if form.non_field_errors %}
+      <div class="form-error">
+        {% for error in form.non_field_errors %}
+          {{ error }}
+        {% endfor %}
+      </div>
+    {% endif %}
+    <div class="form-actions">
+      <button type="submit" class="btn-primary">
+        {% if action == 'Create' %}Create Goal{% else %}Save Changes{% endif %}
+      </button>
+      <a href="{% url 'savings-list' %}" class="btn-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

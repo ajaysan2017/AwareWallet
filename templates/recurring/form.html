@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load currency_filters %}
+{% block title %}{{ action }} Recurring Transaction — AwareWallet{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">{{ action }} Recurring</h1>
+    <p class="page-subtitle">{% if action == 'Create' %}Set up a new scheduled transaction{% else %}Update recurring transaction{% endif %}</p>
+  </div>
+</div>
+
+<div class="form-card">
+  <form method="POST" class="form-grid">
+    {% csrf_token %}
+
+    <div class="form-row">
+      <div class="field-group">
+        <label for="id_type">Type</label>
+        <select name="type" id="id_type">
+          <option value="expense" {% if form.type.value == 'expense' %}selected{% endif %}>Expense</option>
+          <option value="income"  {% if form.type.value == 'income' %}selected{% endif %}>Income</option>
+        </select>
+        {% if form.type.errors %}<span class="field-error">{{ form.type.errors.0 }}</span>{% endif %}
+      </div>
+      <div class="field-group">
+        <label for="id_amount">Amount ({% currency_symbol %})</label>
+        <input type="number" name="amount" id="id_amount"
+               step="0.01" min="0" placeholder="0.00"
+               value="{{ form.amount.value|default:'' }}">
+        {% if form.amount.errors %}<span class="field-error">{{ form.amount.errors.0 }}</span>{% endif %}
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="field-group">
+        <label for="id_category">Category</label>
+        <select name="category" id="id_category">
+          <option value="">— No category —</option>
+          {% for cat in form.category.field.queryset %}
+            <option value="{{ cat.pk }}" {% if form.category.value|stringformat:"s" == cat.pk|stringformat:"s" %}selected{% endif %}>
+              {{ cat.name }} ({{ cat.type }})
+            </option>
+          {% endfor %}
+        </select>
+        {% if form.category.errors %}<span class="field-error">{{ form.category.errors.0 }}</span>{% endif %}
+      </div>
+      <div class="field-group">
+        <label for="id_frequency">Frequency</label>
+        <select name="frequency" id="id_frequency">
+          <option value="daily"   {% if form.frequency.value == 'daily' %}selected{% endif %}>Daily</option>
+          <option value="weekly"  {% if form.frequency.value == 'weekly' %}selected{% endif %}>Weekly</option>
+          <option value="monthly" {% if form.frequency.value == 'monthly' %}selected{% endif %}>Monthly</option>
+          <option value="yearly"  {% if form.frequency.value == 'yearly' %}selected{% endif %}>Yearly</option>
+        </select>
+        {% if form.frequency.errors %}<span class="field-error">{{ form.frequency.errors.0 }}</span>{% endif %}
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label for="id_description">Description</label>
+      <input type="text" name="description" id="id_description"
+             placeholder="e.g. Netflix, Rent, Salary"
+             value="{{ form.description.value|default:'' }}">
+      {% if form.description.errors %}<span class="field-error">{{ form.description.errors.0 }}</span>{% endif %}
+    </div>
+
+    <div class="form-row">
+      <div class="field-group">
+        <label for="id_next_date">Next Date</label>
+        <input type="date" name="next_date" id="id_next_date"
+               value="{{ form.next_date.value|default:'' }}">
+        {% if form.next_date.errors %}<span class="field-error">{{ form.next_date.errors.0 }}</span>{% endif %}
+      </div>
+      <div class="field-group">
+        <label for="id_is_active">Status</label>
+        <select name="is_active" id="id_is_active">
+          <option value="True"  {% if form.is_active.value %}selected{% endif %}>Active</option>
+          <option value="False" {% if not form.is_active.value %}selected{% endif %}>Paused</option>
+        </select>
+        {% if form.is_active.errors %}<span class="field-error">{{ form.is_active.errors.0 }}</span>{% endif %}
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-primary">
+        {% if action == 'Create' %}Create Recurring{% else %}Save Changes{% endif %}
+      </button>
+      <a href="{% url 'recurring-list' %}" class="btn-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}
