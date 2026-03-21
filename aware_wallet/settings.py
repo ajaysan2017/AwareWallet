@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from gunicorn import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'corsheaders',
+    'storages',
     # My apps
     'apps.users',
     'apps.categories',
@@ -145,3 +147,21 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'
+
+# ─── Production Settings ──────────────────────────────────────
+import os
+
+# Override for production
+if not config('DEBUG', default=True, cast=bool):
+    # Static files served from S3
+    AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET', default='awarewallet')
+    AWS_S3_REGION_NAME = config('AWS_S3_REGION', default='us-east-1')
+    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+    AWS_DEFAULT_ACL = 'public-read'
+    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+
+    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
+
+    # Allow EB domain
+    ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='.elasticbeanstalk.com').split(',')
