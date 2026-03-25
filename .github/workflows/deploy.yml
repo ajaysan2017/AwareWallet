@@ -72,8 +72,8 @@ jobs:
           global:
             application_name: AwareWallet
             default_region: us-east-1
-          deploy:
-            artifact: app.zip
+          # deploy:
+          #   artifact: app.zip
           EOF
 
       - name: Deploy to Elastic Beanstalk
