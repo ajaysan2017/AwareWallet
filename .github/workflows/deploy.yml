@@ -78,4 +78,4 @@ jobs:
 
       - name: Deploy to Elastic Beanstalk
         run: |
-          eb deploy AwareWallet-env --staged
+          eb deploy AwareWallet-env
