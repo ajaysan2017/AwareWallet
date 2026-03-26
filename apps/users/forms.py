@@ -5,6 +5,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.core.exceptions import ValidationError
 from .models import User
+from django.contrib.auth.forms import PasswordResetForm
+from django.core.exceptions import ValidationError
 
 
 class RegisterForm(UserCreationForm):
@@ -136,3 +138,12 @@ class ProfileUpdateForm(forms.ModelForm):
         if income is not None and income < 0:
             raise ValidationError('Monthly income cannot be negative.')
         return income
+    
+class CustomPasswordResetForm(PasswordResetForm):
+    def clean_email(self):
+        email = self.cleaned_data.get('email', '').strip().lower()
+        if not User.objects.filter(email=email, is_active=True).exists():
+            raise ValidationError(
+                'No AwareWallet account is associated with this email address.'
+            )
+        return email

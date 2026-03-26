@@ -165,3 +165,20 @@ if not config('DEBUG', default=True, cast=bool):
 
     # Allow EB domain
     ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='.elasticbeanstalk.com').split(',')
+
+    # ─── Email ────────────────────────────────────────────────────
+    DEBUG_VALUE = os.environ.get('DEBUG', 'True')
+
+    if DEBUG_VALUE == 'True':
+        # Local development — print emails to terminal
+        EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    else:
+        # Production (AWS) — send real emails via Gmail
+        EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+        EMAIL_HOST = 'smtp.gmail.com'
+        EMAIL_PORT = 465
+        EMAIL_USE_SSL = True
+        EMAIL_USE_TLS = False
+        EMAIL_HOST_USER = config('EMAIL_USER', default='')
+        EMAIL_HOST_PASSWORD = config('EMAIL_PASSWORD', default='')
+        DEFAULT_FROM_EMAIL = config('EMAIL_USER', default='')
