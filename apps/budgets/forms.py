@@ -6,7 +6,6 @@ from django.core.exceptions import ValidationError
 from django.utils import timezone
 from .models import Budget
 from apps.categories.models import Category
-import datetime
 
 
 class BudgetForm(forms.ModelForm):

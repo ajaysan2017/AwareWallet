@@ -1,5 +1,5 @@
 """
-WSGI config for aware_wallet project.
+WSGI configuration for aware_wallet project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

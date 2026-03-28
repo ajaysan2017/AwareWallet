@@ -1,0 +1,14 @@
+[MASTER]
+ignore=migrations,venv,staticfiles
+
+[MESSAGES CONTROL]
+disable=
+    E1101,
+    R0901,
+    R0903,
+    R0801,
+    C0411,
+    W1113
+
+[FORMAT]
+max-line-length=120

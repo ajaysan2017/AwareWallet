@@ -1,3 +1,1 @@
-from django.db import models
-
-# Create your models here.
+"""Analytics app models - no models required for this app."""

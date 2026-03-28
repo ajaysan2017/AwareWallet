@@ -138,7 +138,7 @@ class ProfileUpdateForm(forms.ModelForm):
         if income is not None and income < 0:
             raise ValidationError('Monthly income cannot be negative.')
         return income
-    
+
 class CustomPasswordResetForm(PasswordResetForm):
     def clean_email(self):
         email = self.cleaned_data.get('email', '').strip().lower()

@@ -1,7 +1,6 @@
 from django.urls import path
 from rest_framework import generics, permissions
 from .serializers import UserSerializer, UserRegisterSerializer
-from .models import User
 
 
 class MeView(generics.RetrieveUpdateAPIView):

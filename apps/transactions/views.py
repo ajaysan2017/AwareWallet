@@ -1,3 +1,9 @@
+"""
+Transaction views for AwareWallet.
+ 
+Handles dashboard, transaction listing, creation, updating and deletion.
+"""
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages

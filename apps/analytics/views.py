@@ -1,3 +1,9 @@
+"""
+Analytics views for AwareWallet.
+ 
+Handles spending insights and monthly comparison dashboard.
+"""
+
 from django.shortcuts import render
 from apps.users.templatetags.currency_filters import CURRENCY_SYMBOLS
 from django.contrib.auth.decorators import login_required

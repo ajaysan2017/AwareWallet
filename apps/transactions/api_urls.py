@@ -1,7 +1,6 @@
-from django.urls import path, include
+from django.urls import path
 from rest_framework.routers import DefaultRouter
 from rest_framework import viewsets, permissions
-from django_filters.rest_framework import DjangoFilterBackend
 from .models import Transaction
 from .serializers import TransactionSerializer
 from .filters import TransactionFilter

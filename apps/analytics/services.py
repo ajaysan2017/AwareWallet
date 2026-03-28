@@ -1,4 +1,4 @@
-from django.db.models import Sum, Avg, Max, Count
+from django.db.models import Sum, Avg
 from django.utils import timezone
 from apps.transactions.models import Transaction
 
