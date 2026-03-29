@@ -1,24 +1,20 @@
-************* Module /Users/ajaysanthosh/AwareWallet/.pylintrc
-.pylintrc:1:0: E0015: Unrecognized option found: max-ancestors (unrecognized-option)
-************* Module savings.models
+************* Module apps.savings.models
 apps/savings/models.py:8:0: C0115: Missing class docstring (missing-class-docstring)
 apps/savings/models.py:24:4: C0115: Missing class docstring (missing-class-docstring)
 apps/savings/models.py:32:4: C0116: Missing function or method docstring (missing-function-docstring)
 apps/savings/models.py:38:4: C0116: Missing function or method docstring (missing-function-docstring)
-************* Module savings.serializers
+************* Module apps.savings.serializers
 apps/savings/serializers.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/savings/serializers.py:4:0: C0115: Missing class docstring (missing-class-docstring)
 apps/savings/serializers.py:8:4: C0115: Missing class docstring (missing-class-docstring)
-************* Module savings.__init__
-apps/savings/__init__.py:1:0: C0305: Trailing newlines (trailing-newlines)
-************* Module savings.api_urls
+************* Module apps.savings.api_urls
 apps/savings/api_urls.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/savings/api_urls.py:7:0: C0115: Missing class docstring (missing-class-docstring)
 apps/savings/api_urls.py:1:0: W0611: Unused path imported from django.urls (unused-import)
-************* Module savings.apps
+************* Module apps.savings.apps
 apps/savings/apps.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/savings/apps.py:4:0: C0115: Missing class docstring (missing-class-docstring)
-************* Module savings.forms
+************* Module apps.savings.forms
 apps/savings/forms.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/savings/forms.py:6:0: C0115: Missing class docstring (missing-class-docstring)
 apps/savings/forms.py:7:4: C0115: Missing class docstring (missing-class-docstring)
@@ -26,81 +22,73 @@ apps/savings/forms.py:15:4: C0116: Missing function or method docstring (missing
 apps/savings/forms.py:25:4: C0116: Missing function or method docstring (missing-function-docstring)
 apps/savings/forms.py:33:4: C0116: Missing function or method docstring (missing-function-docstring)
 apps/savings/forms.py:52:0: C0115: Missing class docstring (missing-class-docstring)
-************* Module savings.admin
+************* Module apps.savings.admin
 apps/savings/admin.py:6:0: C0301: Line too long (126/120) (line-too-long)
 apps/savings/admin.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/savings/admin.py:5:0: C0115: Missing class docstring (missing-class-docstring)
-************* Module savings.tests
-apps/savings/tests.py:1:0: C0304: Final newline missing (missing-final-newline)
-************* Module savings.urls
+************* Module apps.savings.urls
 apps/savings/urls.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-************* Module savings.views
+************* Module apps.savings.views
 apps/savings/views.py:15:0: C0116: Missing function or method docstring (missing-function-docstring)
 apps/savings/views.py:26:0: C0116: Missing function or method docstring (missing-function-docstring)
 apps/savings/views.py:41:0: C0116: Missing function or method docstring (missing-function-docstring)
 apps/savings/views.py:55:0: C0116: Missing function or method docstring (missing-function-docstring)
 apps/savings/views.py:74:0: C0116: Missing function or method docstring (missing-function-docstring)
-************* Module transactions.models
+************* Module apps.transactions.models
 apps/transactions/models.py:9:0: C0115: Missing class docstring (missing-class-docstring)
 apps/transactions/models.py:37:4: C0115: Missing class docstring (missing-class-docstring)
-************* Module transactions.serializers
+************* Module apps.transactions.serializers
 apps/transactions/serializers.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/transactions/serializers.py:5:0: C0115: Missing class docstring (missing-class-docstring)
 apps/transactions/serializers.py:8:4: C0115: Missing class docstring (missing-class-docstring)
-************* Module transactions.__init__
-apps/transactions/__init__.py:1:0: C0305: Trailing newlines (trailing-newlines)
-************* Module transactions.api_urls
+************* Module apps.transactions.api_urls
 apps/transactions/api_urls.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/transactions/api_urls.py:8:0: C0115: Missing class docstring (missing-class-docstring)
 apps/transactions/api_urls.py:1:0: W0611: Unused path imported from django.urls (unused-import)
-************* Module transactions.apps
+************* Module apps.transactions.apps
 apps/transactions/apps.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/transactions/apps.py:4:0: C0115: Missing class docstring (missing-class-docstring)
-************* Module transactions.forms
+************* Module apps.transactions.forms
 apps/transactions/forms.py:11:0: C0115: Missing class docstring (missing-class-docstring)
 apps/transactions/forms.py:12:4: C0115: Missing class docstring (missing-class-docstring)
 apps/transactions/forms.py:31:4: C0116: Missing function or method docstring (missing-function-docstring)
 apps/transactions/forms.py:41:4: C0116: Missing function or method docstring (missing-function-docstring)
 apps/transactions/forms.py:54:4: C0116: Missing function or method docstring (missing-function-docstring)
 apps/transactions/forms.py:60:4: C0116: Missing function or method docstring (missing-function-docstring)
-************* Module transactions.admin
+************* Module apps.transactions.admin
 apps/transactions/admin.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/transactions/admin.py:5:0: C0115: Missing class docstring (missing-class-docstring)
-************* Module transactions.tests
-apps/transactions/tests.py:1:0: C0304: Final newline missing (missing-final-newline)
-************* Module transactions.urls
+************* Module apps.transactions.urls
 apps/transactions/urls.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-************* Module transactions.filters
+************* Module apps.transactions.filters
 apps/transactions/filters.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/transactions/filters.py:4:0: C0115: Missing class docstring (missing-class-docstring)
 apps/transactions/filters.py:10:4: C0115: Missing class docstring (missing-class-docstring)
-************* Module transactions.views
+************* Module apps.transactions.views
 apps/transactions/views.py:19:0: C0116: Missing function or method docstring (missing-function-docstring)
 apps/transactions/views.py:52:0: C0116: Missing function or method docstring (missing-function-docstring)
 apps/transactions/views.py:59:0: C0116: Missing function or method docstring (missing-function-docstring)
 apps/transactions/views.py:75:0: C0116: Missing function or method docstring (missing-function-docstring)
 apps/transactions/views.py:90:0: C0116: Missing function or method docstring (missing-function-docstring)
-************* Module users.models
+************* Module apps.users.models
 apps/users/models.py:8:0: C0115: Missing class docstring (missing-class-docstring)
 apps/users/models.py:19:4: C0115: Missing class docstring (missing-class-docstring)
 apps/users/models.py:26:4: C0116: Missing function or method docstring (missing-function-docstring)
-************* Module users.serializers
+************* Module apps.users.serializers
 apps/users/serializers.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/users/serializers.py:5:0: C0115: Missing class docstring (missing-class-docstring)
 apps/users/serializers.py:8:4: C0115: Missing class docstring (missing-class-docstring)
 apps/users/serializers.py:15:0: C0115: Missing class docstring (missing-class-docstring)
 apps/users/serializers.py:19:4: C0115: Missing class docstring (missing-class-docstring)
 apps/users/serializers.py:23:4: W0237: Parameter 'attrs' has been renamed to 'data' in overriding 'UserRegisterSerializer.validate' method (arguments-renamed)
-************* Module users.__init__
-apps/users/__init__.py:1:0: C0305: Trailing newlines (trailing-newlines)
-************* Module users.api_urls
+************* Module apps.users.api_urls
 apps/users/api_urls.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/users/api_urls.py:6:0: C0115: Missing class docstring (missing-class-docstring)
 apps/users/api_urls.py:14:0: C0115: Missing class docstring (missing-class-docstring)
-************* Module users.apps
+************* Module apps.users.apps
 apps/users/apps.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/users/apps.py:4:0: C0115: Missing class docstring (missing-class-docstring)
-************* Module users.forms
+************* Module apps.users.forms
 apps/users/forms.py:9:0: W0404: Reimport 'ValidationError' (imported line 6) (reimported)
 apps/users/forms.py:12:0: C0115: Missing class docstring (missing-class-docstring)
 apps/users/forms.py:28:4: C0115: Missing class docstring (missing-class-docstring)
@@ -118,154 +106,134 @@ apps/users/forms.py:126:4: C0116: Missing function or method docstring (missing-
 apps/users/forms.py:136:4: C0116: Missing function or method docstring (missing-function-docstring)
 apps/users/forms.py:142:0: C0115: Missing class docstring (missing-class-docstring)
 apps/users/forms.py:143:4: C0116: Missing function or method docstring (missing-function-docstring)
-************* Module users.admin
+************* Module apps.users.admin
 apps/users/admin.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/users/admin.py:6:0: C0115: Missing class docstring (missing-class-docstring)
-************* Module users.tests
-apps/users/tests.py:1:0: C0304: Final newline missing (missing-final-newline)
-************* Module users.urls
+************* Module apps.users.urls
 apps/users/urls.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-************* Module users.views
+************* Module apps.users.views
 apps/users/views.py:15:0: C0116: Missing function or method docstring (missing-function-docstring)
 apps/users/views.py:30:0: C0116: Missing function or method docstring (missing-function-docstring)
 apps/users/views.py:53:0: C0116: Missing function or method docstring (missing-function-docstring)
 apps/users/views.py:60:0: C0116: Missing function or method docstring (missing-function-docstring)
-************* Module users.templatetags.currency_filters
+************* Module apps.users.templatetags.currency_filters
 apps/users/templatetags/currency_filters.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/users/templatetags/currency_filters.py:23:0: C0116: Missing function or method docstring (missing-function-docstring)
-************* Module users.templatetags.__init__
-apps/users/templatetags/__init__.py:1:0: C0305: Trailing newlines (trailing-newlines)
-************* Module budgets.models
+************* Module apps.budgets.models
 apps/budgets/models.py:9:0: C0115: Missing class docstring (missing-class-docstring)
 apps/budgets/models.py:25:4: C0115: Missing class docstring (missing-class-docstring)
 apps/budgets/models.py:36:8: C0415: Import outside toplevel (apps.transactions.models.Transaction) (import-outside-toplevel)
 apps/budgets/models.py:37:8: C0415: Import outside toplevel (django.db.models.Sum) (import-outside-toplevel)
 apps/budgets/models.py:48:4: C0116: Missing function or method docstring (missing-function-docstring)
 apps/budgets/models.py:57:8: R1705: Unnecessary "elif" after "return", remove the leading "el" from "elif" (no-else-return)
-************* Module budgets.serializers
+************* Module apps.budgets.serializers
 apps/budgets/serializers.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/budgets/serializers.py:4:0: C0115: Missing class docstring (missing-class-docstring)
 apps/budgets/serializers.py:9:4: C0115: Missing class docstring (missing-class-docstring)
-************* Module budgets.__init__
-apps/budgets/__init__.py:1:0: C0305: Trailing newlines (trailing-newlines)
-************* Module budgets.api_urls
+************* Module apps.budgets.api_urls
 apps/budgets/api_urls.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/budgets/api_urls.py:7:0: C0115: Missing class docstring (missing-class-docstring)
 apps/budgets/api_urls.py:1:0: W0611: Unused path imported from django.urls (unused-import)
-************* Module budgets.apps
+************* Module apps.budgets.apps
 apps/budgets/apps.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/budgets/apps.py:4:0: C0115: Missing class docstring (missing-class-docstring)
-************* Module budgets.forms
+************* Module apps.budgets.forms
 apps/budgets/forms.py:11:0: C0115: Missing class docstring (missing-class-docstring)
 apps/budgets/forms.py:12:4: C0115: Missing class docstring (missing-class-docstring)
 apps/budgets/forms.py:28:4: C0116: Missing function or method docstring (missing-function-docstring)
 apps/budgets/forms.py:38:4: C0116: Missing function or method docstring (missing-function-docstring)
-************* Module budgets.admin
+************* Module apps.budgets.admin
 apps/budgets/admin.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/budgets/admin.py:5:0: C0115: Missing class docstring (missing-class-docstring)
-************* Module budgets.tests
-apps/budgets/tests.py:1:0: C0304: Final newline missing (missing-final-newline)
-************* Module budgets.urls
+************* Module apps.budgets.urls
 apps/budgets/urls.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-************* Module budgets.views
+************* Module apps.budgets.views
 apps/budgets/views.py:16:0: C0116: Missing function or method docstring (missing-function-docstring)
 apps/budgets/views.py:27:0: C0116: Missing function or method docstring (missing-function-docstring)
 apps/budgets/views.py:43:0: C0116: Missing function or method docstring (missing-function-docstring)
 apps/budgets/views.py:57:0: C0116: Missing function or method docstring (missing-function-docstring)
-************* Module categories.models
+************* Module apps.categories.models
 apps/categories/models.py:8:0: C0115: Missing class docstring (missing-class-docstring)
 apps/categories/models.py:30:4: C0115: Missing class docstring (missing-class-docstring)
-************* Module categories.serializers
+************* Module apps.categories.serializers
 apps/categories/serializers.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/categories/serializers.py:4:0: C0115: Missing class docstring (missing-class-docstring)
 apps/categories/serializers.py:5:4: C0115: Missing class docstring (missing-class-docstring)
-************* Module categories.__init__
-apps/categories/__init__.py:1:0: C0305: Trailing newlines (trailing-newlines)
-************* Module categories.api_urls
+************* Module apps.categories.api_urls
 apps/categories/api_urls.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/categories/api_urls.py:7:0: C0115: Missing class docstring (missing-class-docstring)
 apps/categories/api_urls.py:1:0: W0611: Unused path imported from django.urls (unused-import)
-************* Module categories.apps
+************* Module apps.categories.apps
 apps/categories/apps.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/categories/apps.py:4:0: C0115: Missing class docstring (missing-class-docstring)
-************* Module categories.forms
+************* Module apps.categories.forms
 apps/categories/forms.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/categories/forms.py:6:0: C0115: Missing class docstring (missing-class-docstring)
 apps/categories/forms.py:7:4: C0115: Missing class docstring (missing-class-docstring)
 apps/categories/forms.py:18:4: C0116: Missing function or method docstring (missing-function-docstring)
-************* Module categories.admin
+************* Module apps.categories.admin
 apps/categories/admin.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/categories/admin.py:5:0: C0115: Missing class docstring (missing-class-docstring)
-************* Module categories.tests
-apps/categories/tests.py:1:0: C0304: Final newline missing (missing-final-newline)
-************* Module categories.urls
+************* Module apps.categories.urls
 apps/categories/urls.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-************* Module categories.views
+************* Module apps.categories.views
 apps/categories/views.py:15:0: C0116: Missing function or method docstring (missing-function-docstring)
 apps/categories/views.py:27:0: C0116: Missing function or method docstring (missing-function-docstring)
 apps/categories/views.py:42:0: C0116: Missing function or method docstring (missing-function-docstring)
 apps/categories/views.py:56:0: C0116: Missing function or method docstring (missing-function-docstring)
-************* Module recurring.models
+************* Module apps.recurring.models
 apps/recurring/models.py:9:0: C0115: Missing class docstring (missing-class-docstring)
 apps/recurring/models.py:40:4: C0115: Missing class docstring (missing-class-docstring)
-************* Module recurring.serializers
+************* Module apps.recurring.serializers
 apps/recurring/serializers.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/recurring/serializers.py:4:0: C0115: Missing class docstring (missing-class-docstring)
 apps/recurring/serializers.py:5:4: C0115: Missing class docstring (missing-class-docstring)
-************* Module recurring.__init__
-apps/recurring/__init__.py:1:0: C0305: Trailing newlines (trailing-newlines)
-************* Module recurring.api_urls
+************* Module apps.recurring.api_urls
 apps/recurring/api_urls.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/recurring/api_urls.py:7:0: C0115: Missing class docstring (missing-class-docstring)
 apps/recurring/api_urls.py:1:0: W0611: Unused path imported from django.urls (unused-import)
-************* Module recurring.apps
+************* Module apps.recurring.apps
 apps/recurring/apps.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/recurring/apps.py:4:0: C0115: Missing class docstring (missing-class-docstring)
-************* Module recurring.forms
+************* Module apps.recurring.forms
 apps/recurring/forms.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/recurring/forms.py:5:0: C0115: Missing class docstring (missing-class-docstring)
 apps/recurring/forms.py:6:4: C0115: Missing class docstring (missing-class-docstring)
-************* Module recurring.admin
+************* Module apps.recurring.admin
 apps/recurring/admin.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/recurring/admin.py:5:0: C0115: Missing class docstring (missing-class-docstring)
-************* Module recurring.tests
-apps/recurring/tests.py:1:0: C0304: Final newline missing (missing-final-newline)
-************* Module recurring.urls
+************* Module apps.recurring.urls
 apps/recurring/urls.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-************* Module recurring.views
+************* Module apps.recurring.views
 apps/recurring/views.py:15:0: C0116: Missing function or method docstring (missing-function-docstring)
 apps/recurring/views.py:23:0: C0116: Missing function or method docstring (missing-function-docstring)
 apps/recurring/views.py:38:0: C0116: Missing function or method docstring (missing-function-docstring)
 apps/recurring/views.py:52:0: C0116: Missing function or method docstring (missing-function-docstring)
-************* Module analytics.services
+************* Module apps.analytics.services
 apps/analytics/services.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/analytics/services.py:6:0: C0116: Missing function or method docstring (missing-function-docstring)
 apps/analytics/services.py:24:0: C0116: Missing function or method docstring (missing-function-docstring)
 apps/analytics/services.py:39:0: C0116: Missing function or method docstring (missing-function-docstring)
 apps/analytics/services.py:51:0: C0116: Missing function or method docstring (missing-function-docstring)
 apps/analytics/services.py:64:4: C0415: Import outside toplevel (dateutil.relativedelta.relativedelta) (import-outside-toplevel)
-************* Module analytics.models
+************* Module apps.analytics.models
 apps/analytics/models.py:1:0: C0304: Final newline missing (missing-final-newline)
-************* Module analytics.__init__
-apps/analytics/__init__.py:1:0: C0305: Trailing newlines (trailing-newlines)
-************* Module analytics.api_urls
+************* Module apps.analytics.api_urls
 apps/analytics/api_urls.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/analytics/api_urls.py:16:0: C0116: Missing function or method docstring (missing-function-docstring)
-************* Module analytics.apps
+************* Module apps.analytics.apps
 apps/analytics/apps.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 apps/analytics/apps.py:4:0: C0115: Missing class docstring (missing-class-docstring)
-************* Module analytics.admin
+************* Module apps.analytics.admin
 apps/analytics/admin.py:1:0: C0304: Final newline missing (missing-final-newline)
-************* Module analytics.tests
-apps/analytics/tests.py:1:0: C0304: Final newline missing (missing-final-newline)
-************* Module analytics.urls
+************* Module apps.analytics.urls
 apps/analytics/urls.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-************* Module analytics.views
+************* Module apps.analytics.views
 apps/analytics/views.py:23:0: C0116: Missing function or method docstring (missing-function-docstring)
 apps/analytics/views.py:9:0: C0412: Imports from package django are not grouped (ungrouped-imports)
-************* Module aware_wallet
-aware_wallet/__init__.py:1:0: C0305: Trailing newlines (trailing-newlines)
+************* Module aware_wallet.settings
+aware_wallet/settings.py:174:0: C0304: Final newline missing (missing-final-newline)
 
 ------------------------------------------------------------------
-Your code has been rated at 8.21/10 (previous run: 8.21/10, +0.00)
+Your code has been rated at 8.35/10 (previous run: 8.35/10, +0.00)
 

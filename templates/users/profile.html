@@ -15,13 +15,9 @@
   <!-- ── Avatar & Info ─────────────────────────────────────────── -->
   <div class="profile-card profile-sidebar">
     <div class="avatar-wrap">
-      {% if request.user.avatar %}
-        <img src="{{ request.user.avatar.url }}" alt="Avatar" class="avatar-img">
-      {% else %}
-        <div class="avatar-placeholder">
-          {{ request.user.first_name|first|upper }}{{ request.user.last_name|first|upper }}
-        </div>
-      {% endif %}
+      <div class="avatar-placeholder">
+        {{ request.user.first_name|first|upper }}{{ request.user.last_name|first|upper }}
+      </div>
     </div>
     <div class="profile-name">{{ request.user.full_name }}</div>
     <div class="profile-email">{{ request.user.email }}</div>
@@ -46,7 +42,7 @@
   <!-- ── Edit Form ─────────────────────────────────────────────── -->
   <div class="profile-card profile-form">
     <h3 class="profile-section-title">Edit Profile</h3>
-    <form method="POST" enctype="multipart/form-data" class="form-grid">
+    <form method="POST" class="form-grid">
       {% csrf_token %}
 
       <div class="form-row">
@@ -90,13 +86,6 @@
                  value="{{ form.monthly_income.value|default:'' }}">
           {% if form.monthly_income.errors %}<span class="field-error">{{ form.monthly_income.errors.0 }}</span>{% endif %}
         </div>
-      </div>
-
-      <div class="field-group">
-        <label for="id_avatar">Profile Picture <span style="color:var(--text-muted);font-weight:400">(optional)</span></label>
-        <input type="file" name="avatar" id="id_avatar" accept="image/*"
-               style="padding:8px 14px; cursor:pointer;">
-        {% if form.avatar.errors %}<span class="field-error">{{ form.avatar.errors.0 }}</span>{% endif %}
       </div>
 
       <div class="form-actions">

@@ -98,7 +98,7 @@ class ProfileUpdateForm(forms.ModelForm):
     currency = forms.ChoiceField(choices=CURRENCY_CHOICES)
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'currency', 'monthly_income', 'avatar']
+        fields = ['first_name', 'last_name', 'email', 'currency', 'monthly_income']
 
     def clean_email(self):
         email = self.cleaned_data.get('email', '').strip().lower()
