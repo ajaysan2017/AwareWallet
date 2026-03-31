@@ -9,9 +9,6 @@ disable=
     R0801,
     C0411,
     W1113,
-    C0114,
-    C0115,
-    C0116
 
 [FORMAT]
 max-line-length=120

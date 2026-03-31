@@ -51,7 +51,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0    # full history for better analysis
+          fetch-depth: 0    
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -116,8 +116,6 @@ jobs:
           global:
             application_name: AwareWallet
             default_region: us-east-1
-          # deploy:
-          #   artifact: app.zip
           EOF
       
       - name: Collect static files
