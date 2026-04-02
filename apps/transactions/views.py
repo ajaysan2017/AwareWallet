@@ -62,7 +62,7 @@ def transaction_create(request):
         if form.is_valid():
             t = form.save(commit=False)
             t.user = request.user
-            t.type = form.cleaned_data['type']  # ← auto-set from category
+            t.type = form.cleaned_data['type']  
             t.save()
             messages.success(request, 'Transaction added!')
             return redirect('transaction-list')
@@ -78,7 +78,7 @@ def transaction_update(request, pk):
         form = TransactionForm(request.user, request.POST, instance=transaction)
         if form.is_valid():
             t = form.save(commit=False)
-            t.type = form.cleaned_data['type']  # ← auto-set from category
+            t.type = form.cleaned_data['type']  
             t.save()
             messages.success(request, 'Transaction updated!')
             return redirect('transaction-list')

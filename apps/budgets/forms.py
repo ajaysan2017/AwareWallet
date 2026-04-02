@@ -17,7 +17,7 @@ class BudgetForm(forms.ModelForm):
         }
 
     def __init__(self, user=None, *args, **kwargs):
-        self.user = user                  # ← must be BEFORE super().__init__
+        self.user = user                  
         super().__init__(*args, **kwargs)
         if user:
             self.fields['category'].queryset = (
@@ -39,14 +39,11 @@ class BudgetForm(forms.ModelForm):
         month = self.cleaned_data.get('month')
         if not month:
             raise ValidationError('Month is required.')
-        # Force to first day of month
         month = month.replace(day=1)
-        # Don't allow budgets more than 1 year in the past
         today = timezone.now().date()
         min_month = today.replace(year=today.year - 1, day=1)
         if month < min_month:
             raise ValidationError('Cannot create a budget more than 1 year in the past.')
-        # Don't allow budgets more than 1 year in the future
         max_month = today.replace(year=today.year + 1, day=1)
         if month > max_month:
             raise ValidationError('Cannot create a budget more than 1 year in the future.')
@@ -58,13 +55,11 @@ class BudgetForm(forms.ModelForm):
         month = cleaned_data.get('month')
 
         if category and month and self.user:
-            # Check for duplicate budget — same user, category and month
             qs = Budget.objects.filter(
                 user=self.user,
                 category=category,
                 month=month
             )
-            # Exclude current instance when editing
             if self.instance.pk:
                 qs = qs.exclude(pk=self.instance.pk)
             if qs.exists():

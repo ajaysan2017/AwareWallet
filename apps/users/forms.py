@@ -102,7 +102,6 @@ class ProfileUpdateForm(forms.ModelForm):
 
     def clean_email(self):
         email = self.cleaned_data.get('email', '').strip().lower()
-        # Exclude current user from uniqueness check
         if User.objects.filter(email=email).exclude(pk=self.instance.pk).exists():
             raise ValidationError('This email is already in use by another account.')
         return email

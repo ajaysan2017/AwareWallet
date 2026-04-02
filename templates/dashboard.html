@@ -65,11 +65,11 @@
         <span class="alert-category">{{ budget.category.name }}</span>
         <span class="alert-message">
           {% if budget.alert_level == 'exceeded' %}
-            🚨 Budget exceeded! Spent {% currency_symbol %}{{ budget.spent_amount|floatformat:2 }} of {% currency_symbol %}{{ budget.limit_amount|floatformat:2 }}
+            Budget exceeded! Spent {% currency_symbol %}{{ budget.spent_amount|floatformat:2 }} of {% currency_symbol %}{{ budget.limit_amount|floatformat:2 }}
           {% elif budget.alert_level == 'danger' %}
-            ⚠️ {{ budget.percentage_used }}% used — {% currency_symbol %}{{ budget.spent_amount|floatformat:2 }} of {% currency_symbol %}{{ budget.limit_amount|floatformat:2 }}
+            {{ budget.percentage_used }}% used — {% currency_symbol %}{{ budget.spent_amount|floatformat:2 }} of {% currency_symbol %}{{ budget.limit_amount|floatformat:2 }}
           {% else %}
-            📊 {{ budget.percentage_used }}% used — {% currency_symbol %}{{ budget.spent_amount|floatformat:2 }} of {% currency_symbol %}{{ budget.limit_amount|floatformat:2 }}
+            {{ budget.percentage_used }}% used — {% currency_symbol %}{{ budget.spent_amount|floatformat:2 }} of {% currency_symbol %}{{ budget.limit_amount|floatformat:2 }}
           {% endif %}
         </span>
       </div>

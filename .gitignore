@@ -19,9 +19,6 @@ db.sqlite3
 db.sqlite3-journal
 media/
 
-# Static files
-# staticfiles/
-
 # IDE
 .vscode/
 .idea/

@@ -33,7 +33,6 @@ def budget_create(request):
             budget.save()
             messages.success(request, 'Budget created!')
             return redirect('budget-list')
-        # form.is_valid() failed — fall through to re-render with errors
     else:
         form = BudgetForm(request.user)
     return render(request, 'budgets/form.html', {'form': form, 'action': 'Create'})
